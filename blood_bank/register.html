@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donor Form</title>
+    <link rel="stylesheet" href="blood_donation.css">
+    <link rel="stylesheet" href="register.css">
+</head>
+<body>
+    <div class="navbar">
+        <a style="text-decoration: none; color: black;" href="blood_donation.html"><div class="name"><span style="font-weight: bold; font-style: oblique; color: red;">Blood</span> Bank</div></a>
+        <div class="nav">
+            <ul>
+                <li><a href="bbaboutus.html">About Us</a></li>
+                <li><a href="register.html">Donate Now</a></li>
+                <li><a href="blood_donation.html#conti">Contact Us</a></li>
+                <li><a href="faq.html">FAQ's</a></li>
+            </ul>
+        </div>
+    </div>
+        <div class="form-container">
+            <h1 class="heading">Save a Life!!</h1>
+            <h2 class="form-title">Donor Information Form</h2>
+            <form id="donor-form" class="donor-form">
+                <div class="form-group">
+                    <label for="Name">Name</label>
+                    <input type="text" id="Name" name="Name" required pattern="[A-Za-z ]+" title="Name should contain alphabets and spaces only">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" title="Phone number should be 10 digits only">
+                </div>
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select id="gender" name="gender" required>
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="others">Others</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="blood-group">Blood Group</label>
+                    <select id="blood-group" name="blood-group" required>
+                        <option value="">Select Blood Group</option>
+                        <option value="A\+">A+</option>
+                        <option value="A\-">A-</option>
+                        <option value="B\+">B+</option>
+                        <option value="B\-">B-</option>
+                        <option value="O\+">O+</option>
+                        <option value="O\-">O-</option>
+                        <option value="AB\+">AB+</option>
+                        <option value="AB\-">AB-</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" name="age" required min="18" title="Age should be greater than or equal to 18">
+                </div>
+                <div class="form-group">
+                    <label for="health-conditions">Health Conditions</label>
+                    <input type="text" id="health-conditions" name="health-conditions">
+                </div>
+                <div class="form-group">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+            <center><div id="response-message" style="font-size: large; font-weight: 500;"></div></center>
+        </div>
+        <script>
+            document.getElementById('donor-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+                
+                fetch('register.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('response-message').innerText = data.message;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('response-message').innerText = 'An error occurred while processing the request.';
+                });
+            });
+        </script>
+</body>
+</html>
